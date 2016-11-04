@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script src="jquery-3.1.1.js"></script>
+
+<script>
+
+temp = []; 
+
+$(document).ready(function()
+{
+	for(var i = 0; i < 15; i++) 
+	{
+		for (var j = 0; j < 20; j++)
+		{
+			$('#field').append('<div class="box" id="'+i+'x'+j+'"></div>');
+		}
+	}
+	for(var i = 1; i < 14; i++)
+	{
+		for(var j = 1; j < 19; j++)	
+		{	
+			var x = Math.floor(Math.random() * 4);
+
+			if (x != 0 && x!= 1)
+			{
+				x = 0;
+			}
+			if (x==0)
+			{
+				theCell(i,j).addClass("dead");
+				temp[tempVar(i,j)] = ("dead")
+			}  
+			else if (x==1)
+			{
+				theCell(i,j).addClass("live");
+				temp[tempVar(i,j)] = ("live");
+			}
+		}	
+	} 
+});
+
+function tempVar(i, j)
+{
+	return (""+i+"x"+j+"");
+}
+
+function theCell(i,j)
+{
+	return ($("#"+i+'x'+j+""));
+}
+
+function GameofLife() {
+	for(var i = 0; i < 15; i++) 
+	{
+		for (var j = 0; j < 20; j++)
+		{	
+			liveCount = 0;
+
+			cell = theCell(i,j);
+
+			topleft = theCell((i-1), (j-1));
+			if (topleft.hasClass("live"))
+			{
+				liveCount=liveCount + 1;
+			}
+
+			topcenter = theCell((i-1), (j));
+			if (topcenter.hasClass("live"))
+			{
+				liveCount=liveCount + 1;
+			}
+
+			topright = theCell((i-1), (j+1));
+			if (topright.hasClass("live"))
+			{
+				liveCount=liveCount + 1;
+			}
+
+			left = theCell((i), (j-1));
+			if (left.hasClass("live"))
+			{
+				liveCount=liveCount + 1;
+			}
+
+			right = theCell((i), (j+1));
+			if (right.hasClass("live"))
+			{
+				liveCount=liveCount + 1;
+			}
+
+			bottomleft = theCell((i+1), (j-1));
+			if (bottomleft.hasClass("live"))
+			{
+				liveCount=liveCount + 1;
+			}
+
+			bottomcenter = theCell((i+1), (j));
+			if (bottomcenter.hasClass("live"))
+			{
+				liveCount=liveCount + 1;
+			}
+
+			bottomright = theCell((i+1), (j+1));
+			if (bottomright.hasClass("live"))
+			{
+				liveCount=liveCount + 1;
+			}
+
+			if (cell.hasClass("live") && liveCount < 2)
+			{
+				temp[tempVar(i,j)] = "dead";
+			}
+			else if (cell.hasClass("live") && liveCount > 3)
+			{
+				temp[tempVar(i,j)] = "dead";
+			}
+			else if (cell.hasClass("dead") && liveCount==3)
+			{
+				temp[tempVar(i,j)] = "live";
+			}
+		}
+	}	
+
+	for (var i = 1; i < 14; i++)
+	{
+		for (var j = 1; j<19; j++)
+		{
+			cell = theCell(i,j);
+
+			if (temp[tempVar(i,j)]=="live")
+			{
+				cell.removeClass("dead"); 			
+				cell.addClass("live");
+				var x = Math.floor(Math.random() * 7);
+				if (x==0)
+				{
+					x = 1;
+				}
+				cell.addClass("cell"+x+"");
+			} 
+			else if (temp[tempVar(i,j)]=="dead")
+			{
+				cell.removeClass("live"); 			
+				cell.addClass("dead");	
+				cell.removeClass("cell1");
+				cell.removeClass("cell2"); 	
+				cell.removeClass("cell3"); 		
+				cell.removeClass("cell4"); 		
+				cell.removeClass("cell5"); 		
+				cell.removeClass("cell6"); 		
+			}
+		}	
+	}
+}
+
+function Run() 
+{
+	setInterval(function()
+	{  
+		GameofLife();
+	}, 500);
+}
+
+Run();
+
+</script>
+
+<style type="text/css">
+
+	body {
+		text-align:center;
+		line-height:0px;
+		background-image:url("petridish.png");
+		background-size:120%;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+
+	#field {
+		margin:auto;
+		width:840px;
+	}
+
+	.box{
+		height:40px;
+		width:40px;
+		display:inline-block;
+		margin:1px;
+	}
+
+	.live {
+		height:40px;
+		width:40px;
+		margin:1px;
+		display:inline-block;
+		background-position:center;
+		background-size:contain;
+		background-repeat: no-repeat;
+	}
+
+	.dead {
+		height:40px;
+		width:40px;
+		margin:1px;
+		display:inline-block;
+	}
+
+	.border {
+		opacity: 0; 
+	}
+
+	.cell1 {
+		background-image:url("cell1.png");
+		background-position:center;
+		background-size:contain;
+		background-repeat: no-repeat;
+	}
+	.cell2 {
+		background-image:url("cell2.png");
+		background-position:center;
+		background-size:contain;
+		background-repeat: no-repeat;
+	}
+	.cell3 {
+		background-image:url("cell3.png");
+		background-position:center;
+		background-size:contain;
+		background-repeat: no-repeat;
+	}
+	.cell4 {
+		background-image:url("cell4.png");
+		background-position:center;
+		background-size:contain;
+		background-repeat: no-repeat;
+	}
+	.cell5 {
+		background-image:url("cell6.png");
+		background-position:center;
+		background-size:contain;
+		background-repeat: no-repeat;
+	}
+	.cell6 {
+		background-image:url("cell7.png");
+		background-position:center;
+		background-size:contain;
+		background-repeat: no-repeat;
+	}
+
+</style>
+</head>
+
+<body>
+<div id="field"></div>
+</body>
